@@ -16,6 +16,14 @@ img {
   display: grid;
   grid-template-columns: auto auto auto auto;
 }
+.review-square {
+  width: 395px;
+  height: 395px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 #review-container {
   max-width: 40vw;
@@ -24,10 +32,6 @@ img {
   border-radius: 10px;
   padding: 5px;
 }
-
-/* #review-container p {
-  max-width: 30vw;
-} */
 
 #review-pg-container {
   display: flex;
@@ -47,15 +51,6 @@ img {
 #comments-container {
   max-width: 30vw;
   margin-bottom: 10px;
-}
-
-.review-square {
-  width: 395px;
-  height: 395px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .author-date {

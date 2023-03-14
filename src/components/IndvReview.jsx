@@ -4,24 +4,21 @@ import { getCommentsOfReview, getSingleReview } from "../api/api";
 
 export const IndvReview = ({ reviews, setReviews }) => {
   const { review_id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
   const [review, setReview] = useState({});
   const [comments, setComments] = useState([]);
 
   console.log(review_id);
   useEffect(() => {
-    setIsLoading(true);
     getSingleReview(review_id).then((review) => {
       setReview(review);
     });
-  }, []);
+  }, [review_id]);
 
   useEffect(() => {
-    setIsLoading(true);
     getCommentsOfReview(review_id).then((comments) => {
       setComments(comments.results);
     });
-  }, []);
+  }, [review_id]);
 
   console.log(comments);
 
@@ -51,7 +48,7 @@ export const IndvReview = ({ reviews, setReviews }) => {
             year: "numeric",
           });
           return (
-            <div className="comment-box">
+            <div className="comment-box" key={comment.comment_id}>
               <p>{comment.body}</p>
               <p>{formattedCommentDate}</p>
             </div>

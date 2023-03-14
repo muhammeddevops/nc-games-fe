@@ -29,8 +29,8 @@ export const ReviewsList = () => {
             }
           );
           return (
-            <Link to={`/reviews/${review.review_id}`}>
-              <div key={review.review_id} className="review-square">
+            <Link to={`/reviews/${review.review_id}`} key={review.review_id}>
+              <div className="review-square">
                 <img src={review.review_img_url} alt={review.review_id} />
                 <h4>{review.title}</h4>
                 <div className="author-date">
