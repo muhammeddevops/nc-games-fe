@@ -1,5 +1,11 @@
+body {
+  background-color: rgb(170, 179, 185);
+}
+
 .App {
   text-align: center;
+  height: 100vh;
+  margin: 10px;
 }
 
 img {
@@ -9,6 +15,38 @@ img {
 #reviews-container {
   display: grid;
   grid-template-columns: auto auto auto auto;
+}
+
+#review-container {
+  max-width: 40vw;
+  background-color: gray;
+  border: solid;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+/* #review-container p {
+  max-width: 30vw;
+} */
+
+#review-pg-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comment-box {
+  border: solid;
+  border-radius: 5px;
+  margin: 10px;
+  text-align: left;
+  padding-left: 5px;
+}
+
+#comments-container {
+  max-width: 30vw;
+  margin-bottom: 10px;
 }
 
 .review-square {
@@ -27,4 +65,9 @@ img {
 
 .author-date p {
   margin: 5px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }
