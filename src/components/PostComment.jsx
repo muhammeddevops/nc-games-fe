@@ -19,7 +19,6 @@ export const PostComment = ({ setComments, review_id }) => {
 
     postComment(review_id, input, userValueFromContext)
       .then((newCommentFromApi) => {
-        console.log(newCommentFromApi);
         setComments((currComment) => {
           return [newCommentFromApi, ...currComment];
         });

@@ -12,14 +12,11 @@ function App() {
   const [users, setUsers] = useState([]);
   const userValueFromContext = useContext(UserContext);
 
-  console.log(userValueFromContext.user);
-
   useEffect(() => {
     getUsers().then((users) => {
       setUsers(users);
     });
   }, []);
-  console.log(users);
   return (
     <div className="App">
       <Header />

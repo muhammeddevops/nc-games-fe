@@ -23,7 +23,6 @@ export const getCommentsOfReview = (review_id) => {
 };
 
 export const postComment = (review_id, input, user) => {
-  console.log(user);
   return ncGames
     .post(`/reviews/${review_id}/comments`, {
       body: input,
@@ -36,7 +35,6 @@ export const postComment = (review_id, input, user) => {
 
 export const getUsers = () => {
   return ncGames.get("/users").then(({ data }) => {
-    console.log(data);
     return data.users;
   });
 };
