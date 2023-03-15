@@ -22,11 +22,12 @@ export const getCommentsOfReview = (review_id) => {
   });
 };
 
-export const postComment = (review_id, input) => {
+export const postComment = (review_id, input, user) => {
+  console.log(user);
   return ncGames
     .post(`/reviews/${review_id}/comments`, {
       body: input,
-      username: "grumpy19",
+      username: user.user.username,
     })
     .then(({ data }) => {
       return data;

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { postComment } from "../api/api";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 
 export const PostComment = ({ setComments, review_id }) => {
   const [input, setInput] = useState("");
-  const [newComment, setNewComment] = useState("");
   const [posting, setPosting] = useState(false);
+  const userValueFromContext = useContext(UserContext);
 
   const handleComment = (event) => {
     setInput(event.target.value);
@@ -17,12 +17,16 @@ export const PostComment = ({ setComments, review_id }) => {
     setPosting(true);
     //^^ attempt at disabling text area whilst the comment is being posted
 
-    postComment(review_id, input).then((newCommentFromApi) => {
-      console.log(newCommentFromApi);
-      setComments((currComment) => {
-        return [newCommentFromApi, ...currComment];
+    postComment(review_id, input, userValueFromContext)
+      .then((newCommentFromApi) => {
+        console.log(newCommentFromApi);
+        setComments((currComment) => {
+          return [newCommentFromApi, ...currComment];
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
     setInput("");
     setPosting(false);
   };
