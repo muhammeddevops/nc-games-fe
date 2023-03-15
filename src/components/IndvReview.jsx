@@ -12,7 +12,6 @@ export const IndvReview = () => {
     getSingleReview(review_id).then((review) => {
       setReview(review);
       setVotes(review.votes);
-      console.log(votes, "votes in use effect");
     });
   }, [review_id]);
 
@@ -21,8 +20,6 @@ export const IndvReview = () => {
       setComments(comments.results);
     });
   }, [review_id]);
-
-  console.log(comments);
 
   const upVote = () => {
     setVotes((currVotes) => currVotes + 1);
