@@ -5,8 +5,9 @@ import { PostComment } from "./PostComment.jsx";
 import { Profile } from "./Profile.jsx";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
+import { getCommentsOfReview, getSingleReview, patchVotes } from "../api/api";
 
-export const IndvReview = ({ reviews, setReviews }) => {
+export const IndvReview = () => {
   const { review_id } = useParams();
   const [review, setReview] = useState({});
   const [comments, setComments] = useState([]);
@@ -15,6 +16,7 @@ export const IndvReview = ({ reviews, setReviews }) => {
   useEffect(() => {
     getSingleReview(review_id).then((review) => {
       setReview(review);
+      setVotes(review.votes);
     });
   }, [review_id]);
 
@@ -24,6 +26,15 @@ export const IndvReview = ({ reviews, setReviews }) => {
     });
   }, [review_id]);
 
+  const upVote = () => {
+    setVotes((currVotes) => currVotes + 1);
+    patchVotes(review_id).catch((err) => {
+      if (err) {
+        setVotes((currVotes) => currVotes - 1);
+      }
+    });
+  };
+
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
     month: "short",
     day: "2-digit",
@@ -32,7 +43,6 @@ export const IndvReview = ({ reviews, setReviews }) => {
   return (
     <div>
       <Profile />
-
       <div id="review-pg-container">
         <div id="review-container">
           <h1>{review.title}</h1>
@@ -65,6 +75,39 @@ export const IndvReview = ({ reviews, setReviews }) => {
           })}
         </div>
         <PostComment setComments={setComments} review_id={review_id} />
+        <div id="review-pg-container">
+          <div id="review-container">
+            <h1>{review.title}</h1>
+            <img src={review.review_img_url} alt={review.title} />
+            <p>{review.review_body}</p>
+            <p>By {review.owner}</p>
+            <span>
+              <p>Votes: {votes}</p>
+              <button type="button" onClick={upVote}>
+                +
+              </button>
+            </span>
+            <p>{formattedDate}</p>
+          </div>
+          <div id="comments-container">
+            <h3>Comments</h3>
+            {comments.map((comment) => {
+              const formattedCommentDate = new Date(
+                comment.created_at
+              ).toLocaleString("en-US", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+              });
+              return (
+                <div className="comment-box" key={comment.comment_id}>
+                  <p>{comment.body}</p>
+                  <p>{formattedCommentDate}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
