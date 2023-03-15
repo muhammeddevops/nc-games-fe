@@ -9,7 +9,12 @@ body {
 }
 
 img {
-  width: 385px;
+  width: 70%;
+}
+
+input {
+  width: 80%;
+  height: 40px;
 }
 
 #reviews-container {

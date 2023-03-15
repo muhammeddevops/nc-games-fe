@@ -24,3 +24,17 @@ export const getCommentsOfReview = (review_id) => {
     return data;
   });
 };
+
+export const postComment = (review_id, input) => {
+  console.log(review_id);
+  console.log(input, "input in api.js");
+  return ncGames
+    .post(`/reviews/${review_id}/comments`, {
+      body: input,
+      username: "grumpy19",
+    })
+    .then(({ data }) => {
+      console.log(data, "AJAKJDKLJL");
+      return data;
+    });
+};

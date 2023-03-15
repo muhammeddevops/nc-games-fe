@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getCommentsOfReview, getSingleReview } from "../api/api";
+import { getCommentsOfReview, getSingleReview, postComment } from "../api/api";
+import { PostComment } from "./PostComment.jsx";
 
 export const IndvReview = ({ reviews, setReviews }) => {
   const { review_id } = useParams();
   const [review, setReview] = useState({});
   const [comments, setComments] = useState([]);
 
-  console.log(review_id);
   useEffect(() => {
     getSingleReview(review_id).then((review) => {
       setReview(review);
@@ -20,8 +20,6 @@ export const IndvReview = ({ reviews, setReviews }) => {
     });
   }, [review_id]);
 
-  console.log(comments);
-
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
     month: "short",
     day: "2-digit",
@@ -30,7 +28,7 @@ export const IndvReview = ({ reviews, setReviews }) => {
   return (
     <div id="review-pg-container">
       <div id="review-container">
-        <h1>{review.title}</h1>;
+        <h1>{review.title}</h1>
         <img src={review.review_img_url} alt={review.title} />
         <p>{review.review_body}</p>
         <p>By {review.owner}</p>
@@ -55,6 +53,7 @@ export const IndvReview = ({ reviews, setReviews }) => {
           );
         })}
       </div>
+      <PostComment setComments={setComments} review_id={review_id} />
     </div>
   );
 };
