@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { postComment } from "../api/api";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
 export const PostComment = ({ setComments, review_id }) => {
   const [input, setInput] = useState("");

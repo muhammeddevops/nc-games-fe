@@ -6,35 +6,36 @@ const ncGames = axios.create({
 
 export const getReviews = () => {
   return ncGames.get("/reviews").then(({ data }) => {
-    console.log(data);
     return data;
   });
 };
 
 export const getSingleReview = (review_id) => {
   return ncGames.get(`/reviews/${review_id}`).then(({ data }) => {
-    console.log(data);
     return data;
   });
 };
 
 export const getCommentsOfReview = (review_id) => {
   return ncGames.get(`/reviews/${review_id}/comments`).then(({ data }) => {
-    console.log(data);
     return data;
   });
 };
 
 export const postComment = (review_id, input) => {
-  console.log(review_id);
-  console.log(input, "input in api.js");
   return ncGames
     .post(`/reviews/${review_id}/comments`, {
       body: input,
       username: "grumpy19",
     })
     .then(({ data }) => {
-      console.log(data, "AJAKJDKLJL");
       return data;
     });
+};
+
+export const getUsers = () => {
+  return ncGames.get("/users").then(({ data }) => {
+    console.log(data);
+    return data.users;
+  });
 };
