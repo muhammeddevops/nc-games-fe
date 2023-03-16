@@ -50,7 +50,12 @@ export const IndvReview = () => {
           <img src={review.review_img_url} alt={review.title} />
           <p>{review.review_body}</p>
           <p>By {review.owner}</p>
-          <p>Votes: {review.votes}</p>
+          <span>
+            <p>Votes: {votes}</p>
+            <button type="button" onClick={upVote}>
+              +
+            </button>
+          </span>
           <p>{formattedDate}</p>
         </div>
         <div id="comments-container">
