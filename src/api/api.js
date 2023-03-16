@@ -4,10 +4,19 @@ const ncGames = axios.create({
   baseURL: "https://nc-games-uawn.onrender.com/api",
 });
 
-export const getReviews = () => {
-  return ncGames.get("/reviews").then(({ data }) => {
-    return data;
-  });
+export const getReviews = (sort_by, order_by, limit, p) => {
+  return ncGames
+    .get("/reviews", {
+      params: {
+        sort_by,
+        order_by,
+        limit,
+        p,
+      },
+    })
+    .then(({ data }) => {
+      return data;
+    });
 };
 
 export const getSingleReview = (review_id) => {
