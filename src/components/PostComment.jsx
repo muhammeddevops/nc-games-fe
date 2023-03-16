@@ -14,9 +14,9 @@ export const PostComment = ({ setComments, review_id }) => {
 
   const handlePost = (event) => {
     event.preventDefault();
-    //^^ attempt at disabling text area whilst the comment is being posted
     if (input !== "") {
       setPosting(true);
+      //^^ attempt at disabling text area whilst the comment is being posted
       postComment(review_id, input, userValueFromContext)
         .then((newCommentFromApi) => {
           setComments((currComment) => {

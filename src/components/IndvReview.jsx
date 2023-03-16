@@ -90,7 +90,6 @@ export const IndvReview = () => {
         <div id="comments-container">
           <h3>Comments</h3>
           {comments.map((comment) => {
-            console.log(comment);
             const isUserComment =
               userValueFromContext.user.username === comment.author;
             const formattedCommentDate = new Date(
@@ -100,7 +99,6 @@ export const IndvReview = () => {
               day: "2-digit",
               year: "numeric",
             });
-            console.log(formattedCommentDate);
             return (
               <div className="comment-box" key={comment.comment_id}>
                 <p>{comment.body}</p>
