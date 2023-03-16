@@ -33,10 +33,20 @@ export const ReviewsList = () => {
     setSelectedLimit(event.target.value);
   };
 
-  const nextPage = () => {
-    setCurrPage((currentPage) => {
-      return (currentPage += 1);
-    });
+  const nextPage = (pageOn, totalPages) => {
+    if (pageOn < totalPages) {
+      setCurrPage((currentPage) => {
+        return (currentPage += 1);
+      });
+    }
+  };
+
+  const prevPage = (pageOn, totalPages) => {
+    if (pageOn > 1) {
+      setCurrPage((currentPage) => {
+        return (currentPage -= 1);
+      });
+    }
   };
 
   if (isLoading) {
@@ -114,15 +124,36 @@ export const ReviewsList = () => {
                     <p>{formattedDate}</p>
                     <p>Votes: {review.votes}</p>
                   </div>
+                  <p> {review.comment_count} comments </p>
                 </div>
               </Link>
             );
           })}
         </div>
         <p>Page: {reviews.page}</p>
-        <button type="button" onClick={nextPage}>
-          &gt;
-        </button>
+        {console.log(reviews)}
+        {reviews.page > 1 ? (
+          <button
+            type="button"
+            onClick={() => {
+              prevPage(reviews.page, reviews.accNumofPages);
+            }}
+          >
+            {" "}
+            &lt;
+          </button>
+        ) : null}
+
+        {reviews.page < reviews.accNumofPages ? (
+          <button
+            type="button"
+            onClick={() => {
+              nextPage(reviews.page, reviews.accNumofPages);
+            }}
+          >
+            &gt;
+          </button>
+        ) : null}
       </div>
     );
   }

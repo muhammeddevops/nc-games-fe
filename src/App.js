@@ -7,20 +7,27 @@ import { IndvReview } from "./components/IndvReview.jsx";
 import { Categories } from "./components/Categories.jsx";
 import { UserContext } from "./contexts/UserContext.js";
 import { useEffect, useState, useContext } from "react";
-import { getUsers } from "./api/api";
+import { getReviews, getUsers } from "./api/api";
 
 function App() {
   const [reviews, setReviews] = useState([]);
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const userValueFromContext = useContext(UserContext);
+
+  useEffect(() => {
+    setIsLoading(true);
+    getReviews().then((reviews) => {
+      setReviews(reviews.results);
+      setIsLoading(false);
+    });
+  }, []);
 
   useEffect(() => {
     getUsers().then((users) => {
       setUsers(users);
     });
   }, []);
-
-  console.log(users);
 
   return (
     <div className="App">
