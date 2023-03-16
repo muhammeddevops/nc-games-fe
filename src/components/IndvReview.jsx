@@ -29,7 +29,7 @@ export const IndvReview = () => {
     getCommentsOfReview(review_id).then((comments) => {
       setComments(comments.results);
     });
-  }, [review_id]);
+  }, [review_id, comments]);
 
   const upVote = () => {
     setVotes((currVotes) => currVotes + 1);
