@@ -41,7 +41,7 @@ export const IndvReview = () => {
   };
 
   const handleDelete = (comment_id) => {
-    deleteComment(comment_id).then((comment) => {
+    deleteComment(comment_id).then(() => {
       setComments((currComments) => {
         const newComments = [...currComments];
         newComments.shift();
@@ -102,7 +102,7 @@ export const IndvReview = () => {
                     delete
                   </button>
                 ) : (
-                  <p></p>
+                  <></>
                 )}
               </div>
             );
