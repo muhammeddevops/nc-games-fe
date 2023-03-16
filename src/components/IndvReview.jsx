@@ -4,13 +4,20 @@ import { PostComment } from "./PostComment.jsx";
 import { Profile } from "./Profile.jsx";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
-import { getCommentsOfReview, getSingleReview, patchVotes } from "../api/api";
+import {
+  getCommentsOfReview,
+  getSingleReview,
+  patchVotes,
+  patchVotesMinus,
+} from "../api/api";
 
 export const IndvReview = () => {
   const { review_id } = useParams();
   const [review, setReview] = useState({});
   const [comments, setComments] = useState([]);
+  const [hasVoted, setHasVoted] = useState(false);
   const [votes, setVotes] = useState(0);
+
   const userValueFromContext = useContext(UserContext);
 
   useEffect(() => {
@@ -27,13 +34,33 @@ export const IndvReview = () => {
   }, [review_id]);
 
   const upVote = () => {
-    setVotes((currVotes) => currVotes + 1);
-    patchVotes(review_id).catch((err) => {
-      if (err) {
-        setVotes((currVotes) => currVotes - 1);
-      }
-    });
+    if (!hasVoted) {
+      setHasVoted(true);
+      setVotes((currVotes) => currVotes + 1);
+      patchVotes(review_id).catch((err) => {
+        if (err) {
+          setVotes((currVotes) => currVotes - 1);
+        }
+      });
+    } else {
+      setHasVoted(false);
+      setVotes((currVotes) => currVotes - 1);
+      patchVotesMinus(review_id).catch((err) => {
+        if (err) {
+          setVotes((currVotes) => currVotes + 1);
+        }
+      });
+    }
   };
+
+  // const downVote = () => {
+  //   setVotes((currVotes) => currVotes - 1);
+  //   patchVotes(review_id).catch((err) => {
+  //     if (err) {
+  //       setVotes((currVotes) => currVotes + 1);
+  //     }
+  //   });
+  // };
 
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
     month: "short",
@@ -55,6 +82,9 @@ export const IndvReview = () => {
             <button type="button" onClick={upVote}>
               +
             </button>
+            {/* <button type="button" onClick={downVote}>
+              -
+            </button> */}
           </span>
           <p>{formattedDate}</p>
         </div>
