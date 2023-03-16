@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { getCategories } from "../api/api.js";
+import { UserContext } from "../contexts/UserContext";
 import { FilteredList } from "./FilteredList.jsx";
 
 export const Categories = ({ reviews }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filteredList, setFilteredList] = useState([]);
+  const userValueFromContext = useContext(UserContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,8 +28,17 @@ export const Categories = ({ reviews }) => {
     setFilteredList(filterByCategory);
   };
 
+  const handleLogOut = () => {
+    userValueFromContext.setUser(null);
+  };
+
   return (
     <div>
+      <Link to="/">
+        <button type="button" onClick={handleLogOut}>
+          Log out
+        </button>
+      </Link>
       <h2>Categories</h2>
       <ul>
         {categories.map((category) => {

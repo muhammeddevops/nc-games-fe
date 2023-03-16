@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PostComment } from "./PostComment.jsx";
 import { Profile } from "./Profile.jsx";
 import { UserContext } from "../contexts/UserContext";
@@ -32,7 +32,7 @@ export const IndvReview = () => {
     getCommentsOfReview(review_id).then((comments) => {
       setComments(comments.results);
     });
-  }, [review_id]);
+  }, [review_id, comments]);
 
   const upVote = () => {
     if (!hasVoted) {
@@ -55,13 +55,25 @@ export const IndvReview = () => {
   };
 
   const handleDelete = (comment_id) => {
+    console.log(comment_id, "COMM ID");
     deleteComment(comment_id).then(() => {
       setComments((currComments) => {
+        console.log(currComments, "CURR COMMENTS");
+        const deletedComment = currComments.filter((comment) => {
+          return comment.comment_id === comment_id;
+        });
+        console.log(deletedComment, "DELETED COMM");
+        const indexOfDeletedComment = currComments.indexOf(deletedComment);
         const newComments = [...currComments];
-        newComments.shift();
+        newComments.splice(indexOfDeletedComment, 1);
+        console.log(newComments, "NEW COMM");
         return newComments;
       });
     });
+  };
+
+  const handleLogOut = () => {
+    userValueFromContext.setUser(null);
   };
 
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
@@ -72,6 +84,11 @@ export const IndvReview = () => {
 
   return (
     <div>
+      <Link to="/">
+        <button type="button" onClick={handleLogOut}>
+          Log out
+        </button>
+      </Link>
       <Profile />
       <div id="review-pg-container">
         <div id="review-container">

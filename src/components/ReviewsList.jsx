@@ -130,7 +130,6 @@ export const ReviewsList = () => {
           })}
         </div>
         <p>Page: {reviews.page}</p>
-        {console.log(reviews)}
         {reviews.page > 1 ? (
           <button
             type="button"

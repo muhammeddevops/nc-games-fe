@@ -27,9 +27,12 @@ export const LoginPage = ({ users }) => {
         autoFocus={true}
         id="react-select"
       />
-      <Link to="/homepage">
-        <button type="button">Continue</button>
-      </Link>
+
+      {userValueFromContext.user ? (
+        <Link to="/homepage">
+          <button type="button">Continue</button>
+        </Link>
+      ) : null}
     </form>
   );
 };

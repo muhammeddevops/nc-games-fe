@@ -32,10 +32,17 @@ export const getCommentsOfReview = (review_id) => {
 };
 
 export const postComment = (review_id, input, user) => {
-  return ncGames.post(`/reviews/${review_id}/comments`, {
-    body: input,
-    username: user.user.username,
-  });
+  return ncGames
+    .post(`/reviews/${review_id}/comments`, {
+      body: input,
+      username: user.username,
+    })
+    .then(({ data }) => data)
+    .catch((error) => {
+      if (error) {
+        return Promise.reject("Post failed");
+      }
+    });
 };
 
 export const patchVotes = (review_id) => {
@@ -67,7 +74,5 @@ export const getCategories = () => {
 };
 
 export const deleteComment = (comment_id) => {
-  return ncGames.delete(`/comments/${comment_id}`).then((data) => {
-    console.log(data);
-  });
+  return ncGames.delete(`/comments/${comment_id}`).then((data) => {});
 };

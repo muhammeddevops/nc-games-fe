@@ -17,10 +17,10 @@ export const PostComment = ({ setComments, review_id }) => {
     if (input !== "") {
       setPosting(true);
       //^^ attempt at disabling text area whilst the comment is being posted
-      postComment(review_id, input, userValueFromContext)
+      postComment(review_id, input, userValueFromContext.user)
         .then((newCommentFromApi) => {
-          setComments((currComment) => {
-            return [newCommentFromApi, ...currComment];
+          setComments((currComments) => {
+            return [newCommentFromApi, ...currComments];
           });
         })
         .catch((err) => {
