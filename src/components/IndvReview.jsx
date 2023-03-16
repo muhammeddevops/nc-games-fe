@@ -5,6 +5,7 @@ import { Profile } from "./Profile.jsx";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
 import {
+  deleteComment,
   getCommentsOfReview,
   getSingleReview,
   patchVotes,
@@ -53,6 +54,16 @@ export const IndvReview = () => {
     }
   };
 
+  const handleDelete = (comment_id) => {
+    deleteComment(comment_id).then(() => {
+      setComments((currComments) => {
+        const newComments = [...currComments];
+        newComments.shift();
+        return newComments;
+      });
+    });
+  };
+
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
     month: "short",
     day: "2-digit",
@@ -95,7 +106,18 @@ export const IndvReview = () => {
                 <p>{comment.body}</p>
                 <p>{formattedCommentDate}</p>
                 <p>By: {comment.author}</p>
-                {isUserComment ? <button>delete</button> : <p></p>}
+                {isUserComment ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleDelete(comment.comment_id);
+                    }}
+                  >
+                    delete
+                  </button>
+                ) : (
+                  <></>
+                )}
               </div>
             );
           })}

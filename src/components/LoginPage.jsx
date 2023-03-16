@@ -4,6 +4,7 @@ import Select from "react-select";
 import { Link } from "react-router-dom";
 
 export const LoginPage = ({ users }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const userValueFromContext = useContext(UserContext);
 
   const options = users.map((user) => {
