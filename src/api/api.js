@@ -22,12 +22,25 @@ export const getCommentsOfReview = (review_id) => {
   });
 };
 
+export const postComment = (review_id, input, user) => {
+  return ncGames.post(`/reviews/${review_id}/comments`, {
+    body: input,
+    username: user.user.username,
+  });
+};
+
 export const patchVotes = (review_id) => {
   return ncGames
     .patch(`/reviews/${review_id}`, { inc_votes: 1 })
     .then(({ data }) => {
       return data;
     });
+};
+
+export const getUsers = () => {
+  return ncGames.get("/users").then(({ data }) => {
+    return data.users;
+  });
 };
 
 export const getCategories = () => {

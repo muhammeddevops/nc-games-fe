@@ -15,6 +15,27 @@ img {
 li {
   list-style: none;
 }
+input {
+  width: 80%;
+  height: 40px;
+}
+
+#login-form h2 {
+  color: aliceblue;
+}
+
+#login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20%;
+}
+
+#react-select {
+  width: 40%;
+  margin-bottom: 10px;
+}
 
 #reviews-container {
   display: grid;

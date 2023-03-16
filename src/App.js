@@ -5,34 +5,37 @@ import { LoginPage } from "./components/LoginPage.jsx";
 import { HomePage } from "./components/HomePage.jsx";
 import { IndvReview } from "./components/IndvReview.jsx";
 import { Categories } from "./components/Categories.jsx";
-import { getReviews } from "./api/api";
-import { useEffect, useState } from "react";
+import { UserContext } from "./contexts/UserContext.js";
+import { useEffect, useState, useContext } from "react";
+import { getUsers } from "./api/api";
 
 function App() {
   const [reviews, setReviews] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const userValueFromContext = useContext(UserContext);
 
   useEffect(() => {
-    setIsLoading(true);
-    getReviews().then((reviews) => {
-      setReviews(reviews.results);
-      setIsLoading(false);
+    getUsers().then((users) => {
+      setUsers(users);
     });
   }, []);
+
+  console.log(users);
+
   return (
     <div className="App">
       <Header />
 
       <Routes>
         <Route path="/categories" element={<Categories reviews={reviews} />} />
-        <Route
-          path="/homepage"
-          element={<HomePage reviews={reviews} isLoading={isLoading} />}
-        />
+        <Route path="/homepage" element={<HomePage />} />
         <Route
           path="/reviews/:review_id"
           element={<IndvReview reviews={reviews} />}
         />
+        <Route path="/" element={<LoginPage users={users} />} />
+        <Route path="/homepage" element={<HomePage />} />
+        <Route path="/reviews/:review_id" element={<IndvReview />} />
       </Routes>
     </div>
   );
