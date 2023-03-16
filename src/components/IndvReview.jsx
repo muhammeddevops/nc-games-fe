@@ -4,7 +4,12 @@ import { PostComment } from "./PostComment.jsx";
 import { Profile } from "./Profile.jsx";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "react";
-import { getCommentsOfReview, getSingleReview, patchVotes } from "../api/api";
+import {
+  deleteComment,
+  getCommentsOfReview,
+  getSingleReview,
+  patchVotes,
+} from "../api/api";
 
 export const IndvReview = () => {
   const { review_id } = useParams();
@@ -32,6 +37,12 @@ export const IndvReview = () => {
       if (err) {
         setVotes((currVotes) => currVotes - 1);
       }
+    });
+  };
+
+  const handleDelete = (comment_id) => {
+    deleteComment(comment_id).then((comment) => {
+      setComments(comments);
     });
   };
 
@@ -77,7 +88,18 @@ export const IndvReview = () => {
                 <p>{comment.body}</p>
                 <p>{formattedCommentDate}</p>
                 <p>By: {comment.author}</p>
-                {isUserComment ? <button>delete</button> : <p></p>}
+                {isUserComment ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleDelete(comment.comment_id);
+                    }}
+                  >
+                    delete
+                  </button>
+                ) : (
+                  <p></p>
+                )}
               </div>
             );
           })}
