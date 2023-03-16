@@ -53,15 +53,6 @@ export const IndvReview = () => {
     }
   };
 
-  // const downVote = () => {
-  //   setVotes((currVotes) => currVotes - 1);
-  //   patchVotes(review_id).catch((err) => {
-  //     if (err) {
-  //       setVotes((currVotes) => currVotes + 1);
-  //     }
-  //   });
-  // };
-
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
     month: "short",
     day: "2-digit",
@@ -82,9 +73,6 @@ export const IndvReview = () => {
             <button type="button" onClick={upVote}>
               +
             </button>
-            {/* <button type="button" onClick={downVote}>
-              -
-            </button> */}
           </span>
           <p>{formattedDate}</p>
         </div>
