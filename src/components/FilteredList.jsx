@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 export const FilteredList = ({ filteredList }) => {
-  console.log(filteredList);
   return (
     <div>
       <ul>

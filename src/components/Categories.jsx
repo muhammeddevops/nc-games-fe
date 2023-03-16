@@ -14,14 +14,11 @@ export const Categories = ({ reviews }) => {
       setIsLoading(false);
     });
   }, []);
-
   if (isLoading) {
     return <h3>Loading...</h3>;
   }
 
-  console.log(reviews, "IN CATEGORIESSS");
   const handleCategory = (category) => {
-    console.log(category);
     const filterByCategory = reviews.filter((review) => {
       return review.category === category;
     });
