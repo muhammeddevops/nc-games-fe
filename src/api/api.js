@@ -29,3 +29,9 @@ export const patchVotes = (review_id) => {
       return data;
     });
 };
+
+export const getCategories = () => {
+  return ncGames.get("/categories").then(({ data }) => {
+    return data.categories;
+  });
+};

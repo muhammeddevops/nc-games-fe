@@ -12,6 +12,10 @@ img {
   width: 70%;
 }
 
+li {
+  list-style: none;
+}
+
 #reviews-container {
   display: grid;
   grid-template-columns: auto auto auto auto;

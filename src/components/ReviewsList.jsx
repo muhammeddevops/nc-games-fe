@@ -1,19 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getReviews } from "../api/api";
 
-export const ReviewsList = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    getReviews().then((reviews) => {
-      setReviews(reviews.results);
-      setIsLoading(false);
-    });
-  }, []);
-
+export const ReviewsList = ({ reviews, isLoading }) => {
   if (isLoading) {
     return <h3>Loading content...</h3>;
   } else {
