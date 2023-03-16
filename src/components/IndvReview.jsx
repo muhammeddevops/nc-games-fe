@@ -29,7 +29,7 @@ export const IndvReview = () => {
     getCommentsOfReview(review_id).then((comments) => {
       setComments(comments.results);
     });
-  }, [review_id, comments]);
+  }, [review_id]);
 
   const upVote = () => {
     setVotes((currVotes) => currVotes + 1);
@@ -42,7 +42,11 @@ export const IndvReview = () => {
 
   const handleDelete = (comment_id) => {
     deleteComment(comment_id).then((comment) => {
-      setComments(comments);
+      setComments((currComments) => {
+        const newComments = [...currComments];
+        newComments.shift();
+        return newComments;
+      });
     });
   };
 
