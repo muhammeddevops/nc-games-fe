@@ -1,6 +1,6 @@
 import "./App.css";
 import { Header } from "./components/Header.jsx";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { LoginPage } from "./components/LoginPage.jsx";
 import { HomePage } from "./components/HomePage.jsx";
 import { IndvReview } from "./components/IndvReview.jsx";
@@ -29,18 +29,10 @@ function App() {
     });
   }, []);
 
-  const handleLogOut = () => {
-    userValueFromContext.setUser(null);
-  };
-
   return (
     <div className="App">
       <Header />
-      <Link to="/">
-        <button type="button" onClick={handleLogOut}>
-          Log out
-        </button>
-      </Link>
+
       <Routes>
         <Route path="/categories" element={<Categories reviews={reviews} />} />
         <Route path="/homepage" element={<HomePage />} />

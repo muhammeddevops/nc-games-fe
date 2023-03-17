@@ -55,18 +55,14 @@ export const IndvReview = () => {
   };
 
   const handleDelete = (comment_id) => {
-    console.log(comment_id, "COMM ID");
     deleteComment(comment_id).then(() => {
       setComments((currComments) => {
-        console.log(currComments, "CURR COMMENTS");
         const deletedComment = currComments.filter((comment) => {
           return comment.comment_id === comment_id;
         });
-        console.log(deletedComment, "DELETED COMM");
         const indexOfDeletedComment = currComments.indexOf(deletedComment);
         const newComments = [...currComments];
         newComments.splice(indexOfDeletedComment, 1);
-        console.log(newComments, "NEW COMM");
         return newComments;
       });
     });

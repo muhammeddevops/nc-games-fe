@@ -1,11 +1,24 @@
 import { ReviewsList } from "./ReviewsList.jsx";
 import { Link } from "react-router-dom";
 import { Profile } from "./Profile.jsx";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
 export const HomePage = () => {
+  const userValueFromContext = useContext(UserContext);
+
+  const handleLogOut = () => {
+    userValueFromContext.setUser(null);
+  };
+
   return (
     <div>
       <h2>Reviews</h2>
+      <Link to="/">
+        <button type="button" onClick={handleLogOut}>
+          Log out
+        </button>
+      </Link>
       <Link to="/categories">
         <h3>Categories</h3>
       </Link>
