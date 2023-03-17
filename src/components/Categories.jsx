@@ -32,17 +32,11 @@ export const Categories = ({ reviews }) => {
     userValueFromContext.setUser(null);
   };
 
-  const handleLogIn = () => {
-    userValueFromContext.setUser(null);
-  };
-
   return (
     <div>
       {!userValueFromContext.user ? (
         <Link to="/">
-          <button type="button" onClick={handleLogIn}>
-            Log in
-          </button>
+          <button type="button">Log in</button>
         </Link>
       ) : (
         <div>

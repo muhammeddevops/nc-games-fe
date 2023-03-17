@@ -72,10 +72,6 @@ export const IndvReview = () => {
     userValueFromContext.setUser(null);
   };
 
-  const handleLogIn = () => {
-    userValueFromContext.setUser(null);
-  };
-
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
     month: "short",
     day: "2-digit",
@@ -86,9 +82,7 @@ export const IndvReview = () => {
     <div>
       {!userValueFromContext.user ? (
         <Link to="/">
-          <button type="button" onClick={handleLogIn}>
-            Log in
-          </button>
+          <button type="button">Log in</button>
         </Link>
       ) : (
         <div>

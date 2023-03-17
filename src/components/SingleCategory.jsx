@@ -20,9 +20,6 @@ export const SingleCategory = () => {
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  const handleLogIn = () => {
-    userValueFromContext.setUser(null);
-  };
 
   const upperCase = capitalizeFirstLetter(category);
 
@@ -30,9 +27,7 @@ export const SingleCategory = () => {
     <div>
       {!userValueFromContext.user ? (
         <Link to="/">
-          <button type="button" onClick={handleLogIn}>
-            Log in
-          </button>
+          <button type="button">Log in</button>
         </Link>
       ) : (
         <div>
