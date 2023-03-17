@@ -11,20 +11,34 @@ export const HomePage = () => {
     userValueFromContext.setUser(null);
   };
 
+  const handleLogIn = () => {
+    userValueFromContext.setUser(null);
+  };
+
   return (
     <div>
-      <h2>Reviews</h2>
-      <Link to="/">
-        <button type="button" onClick={handleLogOut}>
-          Log out
-        </button>
-      </Link>
-      <Link to="/categories">
-        <h3>Categories</h3>
-      </Link>
-      <Profile />
-      {/* add sort-by drop down */}
-      <ReviewsList />
+      {!userValueFromContext.user ? (
+        <Link to="/">
+          <button type="button" onClick={handleLogIn}>
+            Log in
+          </button>
+        </Link>
+      ) : (
+        <div>
+          <h2>Reviews</h2>
+          <Link to="/">
+            <button type="button" onClick={handleLogOut}>
+              Log out
+            </button>
+          </Link>
+          <Link to="/categories">
+            <h3>Categories</h3>
+          </Link>
+          <Profile />
+          {/* add sort-by drop down */}
+          <ReviewsList />{" "}
+        </div>
+      )}
     </div>
   );
 };

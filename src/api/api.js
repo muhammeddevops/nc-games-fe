@@ -76,3 +76,9 @@ export const getCategories = () => {
 export const deleteComment = (comment_id) => {
   return ncGames.delete(`/comments/${comment_id}`).then((data) => {});
 };
+
+export const getReviewsByCategory = (category) => {
+  return ncGames.get(`/reviews?category=${category}`).then(({ data }) => {
+    return data;
+  });
+};

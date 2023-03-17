@@ -32,31 +32,47 @@ export const Categories = ({ reviews }) => {
     userValueFromContext.setUser(null);
   };
 
+  const handleLogIn = () => {
+    userValueFromContext.setUser(null);
+  };
+
   return (
     <div>
-      <Link to="/">
-        <button type="button" onClick={handleLogOut}>
-          Log out
-        </button>
-      </Link>
-      <h2>Categories</h2>
-      <ul>
-        {categories.map((category) => {
-          return (
-            <li key={category.slug}>
-              <button
-                type="button"
-                onClick={() => {
-                  handleCategory(category.slug);
-                }}
-              >
-                {category.slug}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      <FilteredList filteredList={filteredList} />
+      {!userValueFromContext.user ? (
+        <Link to="/">
+          <button type="button" onClick={handleLogIn}>
+            Log in
+          </button>
+        </Link>
+      ) : (
+        <div>
+          <Link to="/">
+            <button type="button" onClick={handleLogOut}>
+              Log out
+            </button>
+          </Link>
+          <h2>Categories</h2>
+          <ul>
+            {categories.map((category) => {
+              return (
+                <Link to={`/categories/${category.slug}`} key={category.slug}>
+                  <li key={category.slug}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleCategory(category.slug);
+                      }}
+                    >
+                      {category.slug}
+                    </button>
+                  </li>
+                </Link>
+              );
+            })}
+          </ul>
+          <FilteredList filteredList={filteredList} />
+        </div>
+      )}
     </div>
   );
 };

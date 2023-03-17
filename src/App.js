@@ -1,9 +1,10 @@
 import "./App.css";
 import { Header } from "./components/Header.jsx";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { LoginPage } from "./components/LoginPage.jsx";
 import { HomePage } from "./components/HomePage.jsx";
 import { IndvReview } from "./components/IndvReview.jsx";
+import { SingleCategory } from "./components/SingleCategory.jsx";
 import { Categories } from "./components/Categories.jsx";
 import { UserContext } from "./contexts/UserContext.js";
 import { useEffect, useState, useContext } from "react";
@@ -35,6 +36,10 @@ function App() {
 
       <Routes>
         <Route path="/categories" element={<Categories reviews={reviews} />} />
+        <Route
+          path="/categories/:category"
+          element={<SingleCategory reviews={reviews} />}
+        />
         <Route path="/homepage" element={<HomePage />} />
         <Route
           path="/reviews/:review_id"

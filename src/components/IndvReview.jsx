@@ -72,6 +72,10 @@ export const IndvReview = () => {
     userValueFromContext.setUser(null);
   };
 
+  const handleLogIn = () => {
+    userValueFromContext.setUser(null);
+  };
+
   const formattedDate = new Date(review.created_at).toLocaleString("en-US", {
     month: "short",
     day: "2-digit",
@@ -80,61 +84,71 @@ export const IndvReview = () => {
 
   return (
     <div>
-      <Link to="/">
-        <button type="button" onClick={handleLogOut}>
-          Log out
-        </button>
-      </Link>
-      <Profile />
-      <div id="review-pg-container">
-        <div id="review-container">
-          <h1>{review.title}</h1>
-          <img src={review.review_img_url} alt={review.title} />
-          <p>{review.review_body}</p>
-          <p>By {review.owner}</p>
-          <span>
-            <p>Votes: {votes}</p>
-            <button type="button" onClick={upVote}>
-              +
+      {!userValueFromContext.user ? (
+        <Link to="/">
+          <button type="button" onClick={handleLogIn}>
+            Log in
+          </button>
+        </Link>
+      ) : (
+        <div>
+          <Link to="/">
+            <button type="button" onClick={handleLogOut}>
+              Log out
             </button>
-          </span>
-          <p>{formattedDate}</p>
+          </Link>
+          <Profile />
+          <div id="review-pg-container">
+            <div id="review-container">
+              <h1>{review.title}</h1>
+              <img src={review.review_img_url} alt={review.title} />
+              <p>{review.review_body}</p>
+              <p>By {review.owner}</p>
+              <span>
+                <p>Votes: {votes}</p>
+                <button type="toggle" onClick={upVote}>
+                  +
+                </button>
+              </span>
+              <p>{formattedDate}</p>
+            </div>
+            <div id="comments-container">
+              <h3>Comments</h3>
+              {comments.map((comment) => {
+                const isUserComment =
+                  userValueFromContext.user.username === comment.author;
+                const formattedCommentDate = new Date(
+                  comment.created_at
+                ).toLocaleString("en-US", {
+                  month: "short",
+                  day: "2-digit",
+                  year: "numeric",
+                });
+                return (
+                  <div className="comment-box" key={comment.comment_id}>
+                    <p>{comment.body}</p>
+                    <p>{formattedCommentDate}</p>
+                    <p>By: {comment.author}</p>
+                    {isUserComment ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleDelete(comment.comment_id);
+                        }}
+                      >
+                        delete
+                      </button>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <PostComment setComments={setComments} review_id={review_id} />
+          </div>
         </div>
-        <div id="comments-container">
-          <h3>Comments</h3>
-          {comments.map((comment) => {
-            const isUserComment =
-              userValueFromContext.user.username === comment.author;
-            const formattedCommentDate = new Date(
-              comment.created_at
-            ).toLocaleString("en-US", {
-              month: "short",
-              day: "2-digit",
-              year: "numeric",
-            });
-            return (
-              <div className="comment-box" key={comment.comment_id}>
-                <p>{comment.body}</p>
-                <p>{formattedCommentDate}</p>
-                <p>By: {comment.author}</p>
-                {isUserComment ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleDelete(comment.comment_id);
-                    }}
-                  >
-                    delete
-                  </button>
-                ) : (
-                  <></>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        <PostComment setComments={setComments} review_id={review_id} />
-      </div>
+      )}
     </div>
   );
 };
