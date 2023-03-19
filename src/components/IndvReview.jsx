@@ -32,7 +32,7 @@ export const IndvReview = () => {
     getCommentsOfReview(review_id).then((comments) => {
       setComments(comments.results);
     });
-  }, [review_id, comments]);
+  }, [review_id]);
 
   const upVote = () => {
     if (!hasVoted) {
