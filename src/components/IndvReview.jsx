@@ -8,6 +8,7 @@ import {
   deleteComment,
   getCommentsOfReview,
   getSingleReview,
+  patchCommentVotes,
   patchVotes,
   patchVotesMinus,
 } from "../api/api";
@@ -54,18 +55,21 @@ export const IndvReview = () => {
     }
   };
 
+  const upVoteComment = (comment_id) => {
+    patchCommentVotes(comment_id);
+  };
+
   const handleDelete = (comment_id) => {
-    deleteComment(comment_id).then(() => {
-      setComments((currComments) => {
-        const deletedComment = currComments.filter((comment) => {
-          return comment.comment_id === comment_id;
+    deleteComment(comment_id)
+      .then(() => {
+        const filtered = comments.filter((commentToDelete) => {
+          return commentToDelete.comment_id !== comment_id;
         });
-        const indexOfDeletedComment = currComments.indexOf(deletedComment);
-        const newComments = [...currComments];
-        newComments.splice(indexOfDeletedComment, 1);
-        return newComments;
+        setComments([...filtered]);
+      })
+      .catch((err) => {
+        setComments(comments);
       });
-    });
   };
 
   const handleLogOut = () => {
@@ -121,6 +125,18 @@ export const IndvReview = () => {
                 return (
                   <div className="comment-box" key={comment.comment_id}>
                     <p>{comment.body}</p>
+
+                    <span>
+                      <p>Votes: {votes}</p>
+                      <button
+                        type="toggle"
+                        onClick={() => {
+                          upVoteComment(comment.comment_id);
+                        }}
+                      >
+                        +
+                      </button>
+                    </span>
                     <p>{formattedCommentDate}</p>
                     <p>By: {comment.author}</p>
                     {isUserComment ? (
