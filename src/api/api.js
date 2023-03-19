@@ -40,6 +40,32 @@ export const postComment = (review_id, input, user) => {
     .then(({ data }) => data)
     .catch((error) => {
       if (error) {
+        console.log(error);
+        return Promise.reject("Post failed");
+      }
+    });
+};
+
+export const postReview = (user, title, body, designer, category, url) => {
+  console.log(title);
+  console.log(designer);
+  console.log(category);
+  console.log(body);
+  console.log(user);
+  console.log(url);
+
+  return ncGames
+    .post(`/reviews`, {
+      owner: user,
+      title,
+      review_body: body,
+      designer,
+      category,
+      review_img_url: url,
+    })
+    .then(({ data }) => data)
+    .catch((error) => {
+      if (error) {
         return Promise.reject("Post failed");
       }
     });

@@ -31,6 +31,7 @@ export const SingleCategory = () => {
         </Link>
       ) : (
         <div>
+          <Profile />
           <h2>{upperCase} games</h2>
           <div id="reviews-container">
             {filteredReviews.map((review) => {

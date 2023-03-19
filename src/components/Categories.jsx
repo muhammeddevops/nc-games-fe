@@ -3,20 +3,13 @@ import { Link } from "react-router-dom";
 import { getCategories } from "../api/api.js";
 import { UserContext } from "../contexts/UserContext";
 import { FilteredList } from "./FilteredList.jsx";
+import { PostReview } from "./PostReview.jsx";
 
-export const Categories = ({ reviews }) => {
-  const [categories, setCategories] = useState([]);
+export const Categories = ({ reviews, categories }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [filteredList, setFilteredList] = useState([]);
   const userValueFromContext = useContext(UserContext);
 
-  useEffect(() => {
-    setIsLoading(true);
-    getCategories().then((categories) => {
-      setCategories(categories);
-      setIsLoading(false);
-    });
-  }, []);
   if (isLoading) {
     return <h3>Loading...</h3>;
   }

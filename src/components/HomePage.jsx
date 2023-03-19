@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Profile } from "./Profile.jsx";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
+import { PostReview } from "./PostReview.jsx";
 
 export const HomePage = () => {
   const userValueFromContext = useContext(UserContext);
@@ -29,8 +30,10 @@ export const HomePage = () => {
             <h3>Categories</h3>
           </Link>
           <Profile />
-          {/* add sort-by drop down */}
-          <ReviewsList />{" "}
+          <Link to="/post-review">
+            <button>Post a review</button>
+          </Link>
+          <ReviewsList />
         </div>
       )}
     </div>
