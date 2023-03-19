@@ -62,10 +62,12 @@ export const IndvReview = () => {
   const handleDelete = (comment_id) => {
     deleteComment(comment_id)
       .then(() => {
-        const filtered = comments.filter((commentToDelete) => {
-          return commentToDelete.comment_id !== comment_id;
+        setComments((currComments) => {
+          const filtered = comments.filter((commentToDelete) => {
+            return commentToDelete.comment_id !== comment_id;
+          });
+          return [...filtered];
         });
-        setComments([...filtered]);
       })
       .catch((err) => {
         setComments(comments);
