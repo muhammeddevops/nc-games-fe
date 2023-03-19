@@ -79,6 +79,14 @@ export const patchVotes = (review_id) => {
     });
 };
 
+export const patchCommentVotes = (comment_id) => {
+  return ncGames
+    .patch(`/comments/${comment_id}`, { inc_votes: 1 })
+    .then(({ data }) => {
+      return data;
+    });
+};
+
 export const patchVotesMinus = (review_id) => {
   return ncGames
     .patch(`/reviews/${review_id}`, { inc_votes: -1 })
