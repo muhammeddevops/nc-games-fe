@@ -1,4 +1,5 @@
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Header } from "./components/Header.jsx";
 import { Routes, Route, Link } from "react-router-dom";
 import { LoginPage } from "./components/LoginPage.jsx";
@@ -10,6 +11,7 @@ import { PostReview } from "./components/PostReview.jsx";
 import { UserContext } from "./contexts/UserContext.js";
 import { useEffect, useState, useContext } from "react";
 import { getCategories, getReviews, getUsers } from "./api/api";
+import { Navbar, Nav } from "react-bootstrap";
 
 function App() {
   const [reviews, setReviews] = useState([]);

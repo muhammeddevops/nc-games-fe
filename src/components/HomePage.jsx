@@ -8,10 +8,6 @@ import { PostReview } from "./PostReview.jsx";
 export const HomePage = () => {
   const userValueFromContext = useContext(UserContext);
 
-  const handleLogOut = () => {
-    userValueFromContext.setUser(null);
-  };
-
   return (
     <div>
       {!userValueFromContext.user ? (
@@ -20,19 +16,6 @@ export const HomePage = () => {
         </Link>
       ) : (
         <div>
-          <h2>Reviews</h2>
-          <Link to="/">
-            <button type="button" onClick={handleLogOut}>
-              Log out
-            </button>
-          </Link>
-          <Link to="/categories">
-            <h3>Categories</h3>
-          </Link>
-          <Profile />
-          <Link to="/post-review">
-            <button>Post a review</button>
-          </Link>
           <ReviewsList />
         </div>
       )}

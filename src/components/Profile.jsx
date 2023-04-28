@@ -12,7 +12,9 @@ export const Profile = () => {
           <button type="button">Log in</button>
         </Link>
       ) : (
-        <h3>Logged in as: {userValueFromContext.user.username}</h3>
+        <p className="logged-in-as">
+          Logged in as: {userValueFromContext.user.username}
+        </p>
       )}
     </div>
   );
