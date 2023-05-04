@@ -5,6 +5,7 @@ import { Profile } from "./Profile.jsx";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { DarkModeContext } from "../contexts/DarkModeContext";
 
 export const ReviewsList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +14,15 @@ export const ReviewsList = () => {
   const [selectedOrderBy, setSelectedOrderBy] = useState("DESC");
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [currPage, setCurrPage] = useState(1);
+  const [onFirstPage, setOnFirstPage] = useState(false);
+  const [onLastPage, setOnLastPage] = useState(false);
+  const [onMiddlePage, setOnMiddlePage] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const userValueFromContext = useContext(UserContext);
+  const darkModeValueFromContext = useContext(DarkModeContext);
+
+  console.log(darkModeValueFromContext.darkMode);
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,6 +34,25 @@ export const ReviewsList = () => {
     );
   }, [selectedSortBy, selectedOrderBy, selectedLimit, currPage]);
 
+  useEffect(() => {
+    if (reviews.page === 1) {
+      setOnFirstPage(true);
+      setOnLastPage(false);
+      setOnMiddlePage(false);
+    } else if (
+      reviews.page !== undefined &&
+      reviews.page === reviews.accNumofPages
+    ) {
+      setOnLastPage(true);
+      setOnFirstPage(false);
+      setOnMiddlePage(false);
+    } else if (reviews.page !== 1 && reviews.page !== reviews.accNumofPages) {
+      setOnMiddlePage(true);
+      setOnFirstPage(false);
+      setOnLastPage(false);
+    }
+  }, [reviews]);
+
   const handleSort = (sortBy) => {
     setSelectedSortBy(sortBy);
   };
@@ -32,6 +60,17 @@ export const ReviewsList = () => {
   const handleOrder = (orderBy) => {
     setSelectedOrderBy(orderBy);
   };
+
+  const handleChange = () => {
+    setChecked(!checked);
+    if (darkModeValueFromContext.darkMode === false) {
+      darkModeValueFromContext.setDarkMode(true);
+    } else darkModeValueFromContext.setDarkMode(false);
+  };
+
+  const darkModeVar = darkModeValueFromContext.darkMode === true;
+
+  const lightModeVar = darkModeValueFromContext.darkMode === false;
 
   const handleLimit = (limit) => {
     setSelectedLimit(limit);
@@ -53,6 +92,10 @@ export const ReviewsList = () => {
     }
   };
 
+  const goToPage = (i) => {
+    setCurrPage(i);
+  };
+
   const handleLogOut = () => {
     userValueFromContext.setUser(null);
   };
@@ -70,13 +113,18 @@ export const ReviewsList = () => {
   }
 
   if (isLoading) {
-    return <h3>Loading content...</h3>;
+    return (
+      <div className="loading-spinner">
+        <h3>Loading content...</h3>
+        <div className="spinner-border"></div>
+      </div>
+    );
   } else {
     return (
-      <div>
+      <div className={`page-body ${darkModeVar ? "dark-mode" : ""}`}>
         <div id="filter-results-sec">
-          <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-            <ul class="navbar-nav">
+          <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+            <ul className="navbar-nav">
               <li>
                 <Link to="/categories" className="nav-link">
                   <p>Categories</p>
@@ -89,7 +137,7 @@ export const ReviewsList = () => {
               </li>
 
               {/* <!-- Dropdown --> */}
-              <li class="nav-item dropdown">
+              <li className="nav-item dropdown ">
                 <DropdownButton
                   id="dropdown-basic-button"
                   title={`Sort by: ${selectedSortByDisplay}`}
@@ -97,7 +145,7 @@ export const ReviewsList = () => {
                   <Dropdown.Item onClick={() => handleSort("created_at")}>
                     Date
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("Owner")}>
+                  <Dropdown.Item onClick={() => handleSort("owner")}>
                     Owner
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => handleSort("title")}>
@@ -115,10 +163,10 @@ export const ReviewsList = () => {
                 </DropdownButton>
               </li>
 
-              <li class="nav-item dropdown">
+              <li className="nav-item dropdown">
                 <DropdownButton
                   id="dropdown-basic-button"
-                  title={`Order by: ${
+                  title={`${
                     selectedOrderBy === "DESC" ? "High - Low" : "Low - High"
                   }`}
                 >
@@ -131,7 +179,7 @@ export const ReviewsList = () => {
                 </DropdownButton>
               </li>
 
-              <li class="nav-item dropdown">
+              <li className="nav-item dropdown">
                 <DropdownButton
                   id="dropdown-basic-button"
                   title={`Results per page: ${selectedLimit}`}
@@ -145,38 +193,92 @@ export const ReviewsList = () => {
                   <Dropdown.Item onClick={() => handleLimit("15")}>
                     15
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("20")}>
+                  <Dropdown.Item onClick={() => handleLimit("20")}>
                     20
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("25")}>
+                  <Dropdown.Item onClick={() => handleLimit("25")}>
                     25
                   </Dropdown.Item>
                 </DropdownButton>
               </li>
-
-              <li class="nav-item">
+              {/* 
+              <li class="nav-item secondary">
                 <Profile className="nav-item" />
-              </li>
-              <li class="nav-item">
+              </li> */}
+              {/* <li class="nav-item">
                 {" "}
                 <Link to="/">
                   <button type="button" onClick={handleLogOut}>
                     Log out
                   </button>
                 </Link>
+              </li> */}
+
+              <li className="nav-item dropdown">
+                <DropdownButton id="dropdown-basic-button" title="Settings">
+                  <Dropdown.Item>
+                    Logged in as{" "}
+                    <strong>{userValueFromContext.user.username}</strong>
+                    <img
+                      className="nav-item"
+                      id="display-pic-in-dropdown"
+                      src="https://vignette.wikia.nocookie.net/mrmen/images/7/7e/MrMen-Bump.png/revision/latest?cb=20180123225553"
+                      alt="Logo"
+                    />
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    <div
+                      className="form-check form-switch"
+                      onClick={function (e) {
+                        handleChange();
+                        e.stopPropagation();
+                      }}
+                    >
+                      <form>
+                        {" "}
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          checked={checked}
+                          onChange={handleChange}
+                          onClick={function (e) {
+                            e.stopPropagation();
+                          }}
+                        />
+                        <label className="form-check-label">Dark Mode</label>
+                      </form>
+                    </div>
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    {" "}
+                    <Link to="/">
+                      <button
+                        type="button"
+                        onClick={handleLogOut}
+                        className="btn btn-primary log-out-btn"
+                      >
+                        Log out
+                      </button>
+                    </Link>
+                  </Dropdown.Item>
+                </DropdownButton>
               </li>
             </ul>
+
             <img
-              class="nav-item"
+              className="nav-item"
               id="display-pic"
               src="https://vignette.wikia.nocookie.net/mrmen/images/7/7e/MrMen-Bump.png/revision/latest?cb=20180123225553"
               alt="Logo"
             />
           </nav>
+        </div>
 
+        <div className={`results-range ${darkModeVar ? "dark-mode" : ""}`}>
           <p>{reviews.range}</p>
         </div>
-        <div id="reviews-container">
+
+        <div className={`reviews-container ${darkModeVar ? "dark-mode" : ""}`}>
           {reviews.results.map((review) => {
             const dDate = new Date(review.created_at).toLocaleString("en-US", {
               month: "short",
@@ -184,17 +286,35 @@ export const ReviewsList = () => {
               year: "numeric",
             });
             return (
-              <Link>
-                <Card style={{ width: "18rem" }}></Card>
+              <Card
+                style={{ width: "20rem" }}
+                className={`review-card ${
+                  darkModeVar ? "bg-secondary" : "bg-light"
+                }`}
+                key={review.review_id}
+              >
+                {" "}
                 <Card.Img variant="top" src={review.review_img_url} />
                 <Card.Body>
-                  <Card.Title>{review.title}</Card.Title>
+                  <Link
+                    to={`/reviews/${review.review_id}`}
+                    key={review.review_id}
+                  >
+                    <Card.Title
+                      className={`review-title ${
+                        darkModeVar ? "dark-mode" : ""
+                      }`}
+                    >
+                      {review.title}
+                    </Card.Title>
+                  </Link>
                   <Card.Text>
-                    <p>By {review.owner}</p>
-                    <p>Votes: {review.votes}</p>
+                    By {review.owner}
+                    <br />
+                    Votes: {review.votes}
                   </Card.Text>
                 </Card.Body>
-              </Link>
+              </Card>
               // <Link to={`/reviews/${review.review_id}`} key={review.review_id}>
               //   <div className="review-square">
               //     <img src={review.review_img_url} alt={review.review_id} />
@@ -210,29 +330,50 @@ export const ReviewsList = () => {
             );
           })}
         </div>
-        <p>Page: {reviews.page}</p>
-        {reviews.page > 1 ? (
-          <button
-            type="button"
-            onClick={() => {
-              prevPage(reviews.page, reviews.accNumofPages);
-            }}
-          >
-            {" "}
-            &lt;
-          </button>
-        ) : null}
+        <div className={`pagination-unit ${darkModeVar ? "dark-mode" : ""}`}>
+          <ul className="pagination justify-content-center">
+            <li className="page-item">
+              <button
+                className={`page-link ${onFirstPage ? "disabled" : ""}`}
+                type="button"
+                onClick={() => {
+                  prevPage(reviews.page, reviews.accNumofPages);
+                }}
+              >
+                Prev
+              </button>
+            </li>
+            {Array.from(Array(reviews.accNumofPages), (e, i) => {
+              const pageNum = i + 1;
+              return (
+                <li className="page-item" key={i}>
+                  <a
+                    className={`page-link ${
+                      reviews.page === pageNum ? "active" : ""
+                    }`}
+                    onClick={() => {
+                      goToPage(pageNum);
+                    }}
+                  >
+                    {pageNum}
+                  </a>
+                </li>
+              );
+            })}
 
-        {reviews.page < reviews.accNumofPages ? (
-          <button
-            type="button"
-            onClick={() => {
-              nextPage(reviews.page, reviews.accNumofPages);
-            }}
-          >
-            &gt;
-          </button>
-        ) : null}
+            <li className="page-item">
+              <button
+                className={`page-link ${onLastPage ? "disabled" : ""}`}
+                type="button"
+                onClick={() => {
+                  nextPage(reviews.page, reviews.accNumofPages);
+                }}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }

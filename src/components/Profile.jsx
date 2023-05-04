@@ -13,7 +13,7 @@ export const Profile = () => {
         </Link>
       ) : (
         <p className="logged-in-as">
-          Logged in as: {userValueFromContext.user.username}
+          Logged in as <strong>{userValueFromContext.user.username}</strong>
         </p>
       )}
     </div>

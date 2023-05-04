@@ -10,9 +10,9 @@ export const Categories = ({ reviews, categories }) => {
   const [filteredList, setFilteredList] = useState([]);
   const userValueFromContext = useContext(UserContext);
 
-  if (isLoading) {
-    return <h3>Loading...</h3>;
-  }
+  // if (isLoading) {
+  //   return <h3>Loading...</h3>;
+  // }
 
   const handleCategory = (category) => {
     const filterByCategory = reviews.filter((review) => {

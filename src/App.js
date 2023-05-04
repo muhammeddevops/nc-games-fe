@@ -12,13 +12,16 @@ import { UserContext } from "./contexts/UserContext.js";
 import { useEffect, useState, useContext } from "react";
 import { getCategories, getReviews, getUsers } from "./api/api";
 import { Navbar, Nav } from "react-bootstrap";
+import { DarkModeContext } from "./contexts/DarkModeContext";
 
 function App() {
   const [reviews, setReviews] = useState([]);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+
   const userValueFromContext = useContext(UserContext);
+  const darkModeValueFromContext = useContext(DarkModeContext);
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,8 +45,12 @@ function App() {
     });
   }, []);
 
+  const darkModeVar = darkModeValueFromContext.darkMode === true;
+
+  const lightModeVar = darkModeValueFromContext.darkMode === false;
+
   return (
-    <div className="App">
+    <div className={`App ${darkModeVar ? "dark-mode" : ""}`}>
       <Header />
 
       <Routes>
