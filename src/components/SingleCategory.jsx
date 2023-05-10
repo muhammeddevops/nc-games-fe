@@ -332,7 +332,7 @@ export const SingleCategory = ({ checked, setChecked, categories }) => {
                       <img
                         className="nav-item"
                         id="display-pic-in-dropdown"
-                        src="https://vignette.wikia.nocookie.net/mrmen/images/7/7e/MrMen-Bump.png/revision/latest?cb=20180123225553"
+                        src={userValueFromContext.user.avatar_url}
                         alt="Logo"
                       />
                     </Dropdown.Item>
