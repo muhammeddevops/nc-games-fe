@@ -1,16 +1,10 @@
 import { ReviewsList } from "./ReviewsList.jsx";
 import { Link } from "react-router-dom";
-import { Profile } from "./Profile.jsx";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { PostReview } from "./PostReview.jsx";
 
-export const HomePage = () => {
+export const HomePage = ({ checked, setChecked, categories }) => {
   const userValueFromContext = useContext(UserContext);
-
-  const handleLogOut = () => {
-    userValueFromContext.setUser(null);
-  };
 
   return (
     <div>
@@ -20,20 +14,11 @@ export const HomePage = () => {
         </Link>
       ) : (
         <div>
-          <h2>Reviews</h2>
-          <Link to="/">
-            <button type="button" onClick={handleLogOut}>
-              Log out
-            </button>
-          </Link>
-          <Link to="/categories">
-            <h3>Categories</h3>
-          </Link>
-          <Profile />
-          <Link to="/post-review">
-            <button>Post a review</button>
-          </Link>
-          <ReviewsList />
+          <ReviewsList
+            checked={checked}
+            setChecked={setChecked}
+            categories={categories}
+          />
         </div>
       )}
     </div>

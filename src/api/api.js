@@ -47,13 +47,6 @@ export const postComment = (review_id, input, user) => {
 };
 
 export const postReview = (user, title, body, designer, category, url) => {
-  console.log(title);
-  console.log(designer);
-  console.log(category);
-  console.log(body);
-  console.log(user);
-  console.log(url);
-
   return ncGames
     .post(`/reviews`, {
       owner: user,
@@ -87,6 +80,14 @@ export const patchCommentVotes = (comment_id) => {
     });
 };
 
+export const patchCommentVotesMinus = (comment_id) => {
+  return ncGames
+    .patch(`/comments/${comment_id}`, { inc_votes: -1 })
+    .then(({ data }) => {
+      return data;
+    });
+};
+
 export const patchVotesMinus = (review_id) => {
   return ncGames
     .patch(`/reviews/${review_id}`, { inc_votes: -1 })
@@ -111,8 +112,18 @@ export const deleteComment = (comment_id) => {
   return ncGames.delete(`/comments/${comment_id}`).then((data) => {});
 };
 
-export const getReviewsByCategory = (category) => {
-  return ncGames.get(`/reviews?category=${category}`).then(({ data }) => {
-    return data;
-  });
+export const getReviewsByCategory = (category, sort_by, order_by, limit, p) => {
+  return ncGames
+    .get(`/reviews`, {
+      params: {
+        category,
+        sort_by,
+        order_by,
+        limit,
+        p,
+      },
+    })
+    .then(({ data }) => {
+      return data;
+    });
 };
