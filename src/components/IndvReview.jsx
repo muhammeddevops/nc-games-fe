@@ -197,7 +197,7 @@ export const IndvReview = ({ checked, setChecked, users }) => {
                   <li className="nav-item me-auto">
                     <img
                       id="display-pic"
-                      src="https://vignette.wikia.nocookie.net/mrmen/images/7/7e/MrMen-Bump.png/revision/latest?cb=20180123225553"
+                      src={userValueFromContext.user.avatar_url}
                       alt="Logo"
                     />
                   </li>
