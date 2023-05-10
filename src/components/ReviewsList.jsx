@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getReviews } from "../api/api";
-import { Profile } from "./Profile.jsx";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { Card, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import {
+  Card,
+  Button,
+  Dropdown,
+  DropdownButton,
+  Navbar,
+} from "react-bootstrap";
 import { DarkModeContext } from "../contexts/DarkModeContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faComment } from "@fortawesome/free-solid-svg-icons";
+import logoLight from "../images/logoLight.png";
+import logoDark from "../images/logoDark.png";
 
-export const ReviewsList = () => {
+export const ReviewsList = ({ checked, setChecked, categories }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [reviews, setReviews] = useState([]);
   const [selectedSortBy, setSelectedSortBy] = useState("created_at");
@@ -16,13 +25,8 @@ export const ReviewsList = () => {
   const [currPage, setCurrPage] = useState(1);
   const [onFirstPage, setOnFirstPage] = useState(false);
   const [onLastPage, setOnLastPage] = useState(false);
-  const [onMiddlePage, setOnMiddlePage] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const userValueFromContext = useContext(UserContext);
   const darkModeValueFromContext = useContext(DarkModeContext);
-
-  console.log(darkModeValueFromContext.darkMode);
 
   useEffect(() => {
     setIsLoading(true);
@@ -35,19 +39,19 @@ export const ReviewsList = () => {
   }, [selectedSortBy, selectedOrderBy, selectedLimit, currPage]);
 
   useEffect(() => {
-    if (reviews.page === 1) {
+    if (reviews.page === 1 && reviews.page === reviews.accNumofPages) {
+      setOnFirstPage(true);
+      setOnLastPage(true);
+    } else if (reviews.page === 1) {
       setOnFirstPage(true);
       setOnLastPage(false);
-      setOnMiddlePage(false);
     } else if (
       reviews.page !== undefined &&
       reviews.page === reviews.accNumofPages
     ) {
       setOnLastPage(true);
       setOnFirstPage(false);
-      setOnMiddlePage(false);
     } else if (reviews.page !== 1 && reviews.page !== reviews.accNumofPages) {
-      setOnMiddlePage(true);
       setOnFirstPage(false);
       setOnLastPage(false);
     }
@@ -69,8 +73,6 @@ export const ReviewsList = () => {
   };
 
   const darkModeVar = darkModeValueFromContext.darkMode === true;
-
-  const lightModeVar = darkModeValueFromContext.darkMode === false;
 
   const handleLimit = (limit) => {
     setSelectedLimit(limit);
@@ -96,6 +98,10 @@ export const ReviewsList = () => {
     setCurrPage(i);
   };
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   const handleLogOut = () => {
     userValueFromContext.setUser(null);
   };
@@ -114,8 +120,12 @@ export const ReviewsList = () => {
 
   if (isLoading) {
     return (
-      <div className="loading-spinner">
-        <h3>Loading content...</h3>
+      <div
+        className={`loading-content ${
+          darkModeValueFromContext ? "dark-mode" : ""
+        }`}
+      >
+        <h1>Loading content...</h1>
         <div className="spinner-border"></div>
       </div>
     );
@@ -123,41 +133,88 @@ export const ReviewsList = () => {
     return (
       <div className={`page-body ${darkModeVar ? "dark-mode" : ""}`}>
         <div id="filter-results-sec">
-          <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+          <Navbar
+            expand="sm"
+            id={`${darkModeVar ? "navbar-dark" : "navbar-light"}`}
+            fixed="top"
+          >
             <ul className="navbar-nav">
               <li>
-                <Link to="/categories" className="nav-link">
-                  <p>Categories</p>
+                <Link to="/homepage">
+                  <img
+                    src={`${darkModeVar ? logoDark : logoLight}`}
+                    alt=""
+                    id="logo"
+                  />
                 </Link>
               </li>
               <li>
                 <Link to="/post-review" className="nav-link">
-                  <p>Post a review</p>
+                  <strong>
+                    <p
+                      className={`${
+                        darkModeVar
+                          ? "post-review-p-dark"
+                          : "post-review-p-light"
+                      }`}
+                    >
+                      Post a review
+                    </p>
+                  </strong>
                 </Link>
               </li>
 
-              {/* <!-- Dropdown --> */}
               <li className="nav-item dropdown ">
                 <DropdownButton
-                  id="dropdown-basic-button"
+                  id={`${darkModeVar ? "dropdown-dark" : "dropdown-light"}`}
                   title={`Sort by: ${selectedSortByDisplay}`}
                 >
-                  <Dropdown.Item onClick={() => handleSort("created_at")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleSort("created_at")}
+                  >
                     Date
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("owner")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleSort("owner")}
+                  >
                     Owner
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("title")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleSort("title")}
+                  >
                     Title
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("votes")}>
-                    Votes
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleSort("votes")}
+                  >
+                    Likes
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("designer")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleSort("designer")}
+                  >
                     Designer
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleSort("comment_count")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleSort("comment_count")}
+                  >
                     Num of comments
                   </Dropdown.Item>
                 </DropdownButton>
@@ -165,15 +222,25 @@ export const ReviewsList = () => {
 
               <li className="nav-item dropdown">
                 <DropdownButton
-                  id="dropdown-basic-button"
+                  id={`${darkModeVar ? "dropdown-dark" : "dropdown-light"}`}
                   title={`${
                     selectedOrderBy === "DESC" ? "High - Low" : "Low - High"
                   }`}
                 >
-                  <Dropdown.Item onClick={() => handleOrder("DESC")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleOrder("DESC")}
+                  >
                     Descending
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleOrder("ASC")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleOrder("ASC")}
+                  >
                     Ascending
                   </Dropdown.Item>
                 </DropdownButton>
@@ -181,42 +248,62 @@ export const ReviewsList = () => {
 
               <li className="nav-item dropdown">
                 <DropdownButton
-                  id="dropdown-basic-button"
+                  id={`${darkModeVar ? "dropdown-dark" : "dropdown-light"}`}
                   title={`Results per page: ${selectedLimit}`}
                 >
-                  <Dropdown.Item onClick={() => handleLimit("5")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleLimit("5")}
+                  >
                     5
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleLimit("10")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleLimit("10")}
+                  >
                     10
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleLimit("15")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleLimit("15")}
+                  >
                     15
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleLimit("20")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleLimit("20")}
+                  >
                     20
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleLimit("25")}>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                    onClick={() => handleLimit("25")}
+                  >
                     25
                   </Dropdown.Item>
                 </DropdownButton>
               </li>
-              {/* 
-              <li class="nav-item secondary">
-                <Profile className="nav-item" />
-              </li> */}
-              {/* <li class="nav-item">
-                {" "}
-                <Link to="/">
-                  <button type="button" onClick={handleLogOut}>
-                    Log out
-                  </button>
-                </Link>
-              </li> */}
 
               <li className="nav-item dropdown">
-                <DropdownButton id="dropdown-basic-button" title="Settings">
-                  <Dropdown.Item>
+                <DropdownButton
+                  id={`${darkModeVar ? "dropdown-dark" : "dropdown-light"}`}
+                  title="Settings ⚙"
+                >
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                  >
                     Logged in as{" "}
                     <strong>{userValueFromContext.user.username}</strong>
                     <img
@@ -226,7 +313,11 @@ export const ReviewsList = () => {
                       alt="Logo"
                     />
                   </Dropdown.Item>
-                  <Dropdown.Item>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                  >
                     <div
                       className="form-check form-switch"
                       onClick={function (e) {
@@ -249,89 +340,180 @@ export const ReviewsList = () => {
                       </form>
                     </div>
                   </Dropdown.Item>
-                  <Dropdown.Item>
+                  <Dropdown.Item
+                    id={`${
+                      darkModeVar ? "dropdown-item-dark" : "dropdown-item-light"
+                    }`}
+                  >
                     {" "}
                     <Link to="/">
-                      <button
+                      <Button
                         type="button"
                         onClick={handleLogOut}
-                        className="btn btn-primary log-out-btn"
+                        id={`${darkModeVar ? "dark-log-out" : "light-log-out"}`}
                       >
                         Log out
-                      </button>
+                      </Button>
                     </Link>
                   </Dropdown.Item>
                 </DropdownButton>
               </li>
+              <li className="nav-item me-auto">
+                <img
+                  id="display-pic"
+                  src={userValueFromContext.user.avatar_url}
+                  alt="Logo"
+                />
+              </li>
             </ul>
-
-            <img
-              className="nav-item"
-              id="display-pic"
-              src="https://vignette.wikia.nocookie.net/mrmen/images/7/7e/MrMen-Bump.png/revision/latest?cb=20180123225553"
-              alt="Logo"
-            />
-          </nav>
+          </Navbar>
         </div>
 
-        <div className={`results-range ${darkModeVar ? "dark-mode" : ""}`}>
-          <p>{reviews.range}</p>
+        <div className="filter-by-cat">
+          <h5 id={`${darkModeVar ? "filter-hdr-dark" : "filter-hdr-light"}`}>
+            Filter by category
+          </h5>
+          <ul className="category-ul">
+            <Link to="/homepage" id="category-item">
+              <li>
+                <p
+                  type="button"
+                  className={`${
+                    darkModeVar
+                      ? "category-list-item-dark"
+                      : "category-list-item-light"
+                  }`}
+                >
+                  All
+                </p>
+              </li>
+            </Link>
+            {categories.map((category) => {
+              const upperCase = capitalizeFirstLetter(category.slug);
+
+              return (
+                <Link
+                  to={`/categories/${category.slug}`}
+                  key={category.slug}
+                  id="category-item"
+                >
+                  <li key={category.slug}>
+                    <p
+                      type="button"
+                      className={`${
+                        darkModeVar
+                          ? "category-list-item-dark"
+                          : "category-list-item-light"
+                      }`}
+                    >
+                      {`${upperCase}`}
+                    </p>
+                  </li>
+                </Link>
+              );
+            })}
+          </ul>
+        </div>
+
+        <div>
+          <p className={`results-range ${darkModeVar ? "dark-mode" : ""}`}>
+            {reviews.range}
+          </p>
         </div>
 
         <div className={`reviews-container ${darkModeVar ? "dark-mode" : ""}`}>
           {reviews.results.map((review) => {
-            const dDate = new Date(review.created_at).toLocaleString("en-US", {
-              month: "short",
-              day: "2-digit",
-              year: "numeric",
-            });
             return (
               <Card
                 style={{ width: "20rem" }}
-                className={`review-card ${
-                  darkModeVar ? "bg-secondary" : "bg-light"
-                }`}
+                id={`${darkModeVar ? "card-dark-mode" : "card-light-mode"}`}
                 key={review.review_id}
               >
                 {" "}
-                <Card.Img variant="top" src={review.review_img_url} />
                 <Card.Body>
                   <Link
                     to={`/reviews/${review.review_id}`}
                     key={review.review_id}
+                    id="review-link"
                   >
+                    <Card.Img
+                      variant="top"
+                      src={review.review_img_url}
+                      className="card-img"
+                    />
                     <Card.Title
-                      className={`review-title ${
-                        darkModeVar ? "dark-mode" : ""
-                      }`}
+                      id={`${darkModeVar ? "dark-title" : "light-title"}`}
                     >
                       {review.title}
                     </Card.Title>
                   </Link>
-                  <Card.Text>
-                    By {review.owner}
-                    <br />
-                    Votes: {review.votes}
+                  <Card.Text
+                    id={`${
+                      darkModeVar ? "cards-text-dark" : "cards-text-light"
+                    }`}
+                  >
+                    <p>By {review.owner}</p>
+                    <div className="likesOnList">
+                      <p id="heartOnList">
+                        {" "}
+                        <FontAwesomeIcon
+                          icon={faHeart}
+                          size="sm"
+                          id="card-heart"
+                        />
+                      </p>{" "}
+                      <p> {review.votes} Likes</p>
+                    </div>
+                    <div className="likesOnList">
+                      <p
+                        id={`${
+                          darkModeVar
+                            ? "commentsOnList-dark"
+                            : "commentsOnList-light"
+                        }`}
+                      >
+                        {" "}
+                        <FontAwesomeIcon
+                          icon={faComment}
+                          size="sm"
+                          id="card-heart"
+                        />
+                      </p>{" "}
+                      <p> {review.comment_count} Comments</p>
+                    </div>
+                  </Card.Text>
+                  <Card.Text
+                    id={`${
+                      darkModeVar
+                        ? "dark-reviewSynopsis"
+                        : "light-reviewSynopsis"
+                    }`}
+                  >
+                    {review.review_body}
                   </Card.Text>
                 </Card.Body>
+                <Link to={`/reviews/${review.review_id}`}>
+                  <Button
+                    className="readMoreBtn"
+                    id={`${darkModeVar ? "read-more-dark" : "read-more-light"}`}
+                  >
+                    Read More...
+                  </Button>
+                </Link>
               </Card>
-              // <Link to={`/reviews/${review.review_id}`} key={review.review_id}>
-              //   <div className="review-square">
-              //     <img src={review.review_img_url} alt={review.review_id} />
-              //     <h4>{review.title}</h4>
-              //     <div className="author-date">
-              //       <p>By {review.owner}</p>
-              //       <p>{formattedDate}</p>
-              //       <p>Votes: {review.votes}</p>
-              //     </div>
-              //     <p> {review.comment_count} comments </p>
-              //   </div>
-              // </Link>
             );
           })}
         </div>
-        <div className={`pagination-unit ${darkModeVar ? "dark-mode" : ""}`}>
-          <ul className="pagination justify-content-center">
+        <div
+          className={`pagination-unit ${
+            darkModeVar ? "dark-mode" : "light-mode"
+          }`}
+        >
+          <ul
+            className={`pagination justify-content-center ${
+              darkModeVar ? "dark-mode" : "light-mode"
+            }`}
+          >
             <li className="page-item">
               <button
                 className={`page-link ${onFirstPage ? "disabled" : ""}`}
@@ -340,7 +522,7 @@ export const ReviewsList = () => {
                   prevPage(reviews.page, reviews.accNumofPages);
                 }}
               >
-                Prev
+                <strong className="boldest">Prev</strong>
               </button>
             </li>
             {Array.from(Array(reviews.accNumofPages), (e, i) => {
@@ -355,22 +537,22 @@ export const ReviewsList = () => {
                       goToPage(pageNum);
                     }}
                   >
-                    {pageNum}
+                    <strong className="boldest">{pageNum}</strong>
                   </a>
                 </li>
               );
             })}
 
             <li className="page-item">
-              <button
+              <Button
                 className={`page-link ${onLastPage ? "disabled" : ""}`}
                 type="button"
                 onClick={() => {
                   nextPage(reviews.page, reviews.accNumofPages);
                 }}
               >
-                Next
-              </button>
+                <strong className="boldest">Next</strong>
+              </Button>
             </li>
           </ul>
         </div>

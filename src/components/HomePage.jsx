@@ -1,11 +1,9 @@
 import { ReviewsList } from "./ReviewsList.jsx";
 import { Link } from "react-router-dom";
-import { Profile } from "./Profile.jsx";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { PostReview } from "./PostReview.jsx";
 
-export const HomePage = () => {
+export const HomePage = ({ checked, setChecked, categories }) => {
   const userValueFromContext = useContext(UserContext);
 
   return (
@@ -16,7 +14,11 @@ export const HomePage = () => {
         </Link>
       ) : (
         <div>
-          <ReviewsList />
+          <ReviewsList
+            checked={checked}
+            setChecked={setChecked}
+            categories={categories}
+          />
         </div>
       )}
     </div>
