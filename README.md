@@ -1,6 +1,6 @@
 # 🎲 MK Board Games 🎲
 
-Welcome to Reviews React App! This is a social site where users can view reviews for a range of board games from different categories. The site allows users to like, comment, and engage with each other's reviews and comments, making it a great platform for sharing opinions and discovering new games. The site features a dropdown list of accounts to log in as. Once logged in, users will be redirected to the homepage where they can view reviews. They can scroll to the bottom of the page to go to the next page. Reviews can be filtered by categories which are listed at the top, and can also be sorted by a list of options. Users can also post a review.
+Welcome to my Reviews React App! This is a social site where users can view reviews for a range of board games from different categories. The site allows users to like, comment, and engage with each other's reviews and comments, making it a great platform for sharing opinions and discovering new games. The site features a dropdown list of accounts to log in as. Once logged in, users will be redirected to the homepage where they can view reviews. They can scroll to the bottom of the page to go to the next page. Reviews can be filtered by categories which are listed at the top, and can also be sorted by a list of options. Users can also post a review.
 
 ## 💻 Deployed version 💻
 
