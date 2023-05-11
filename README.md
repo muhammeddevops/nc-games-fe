@@ -1,70 +1,26 @@
-# Getting Started with Create React App
+# 🎲 MK Board Games 🎲
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to Reviews React App! This is a social site where users can view reviews for a range of board games from different categories. The site allows users to like, comment, and engage with each other's reviews and comments, making it a great platform for sharing opinions and discovering new games. The site features a dropdown list of accounts to log in as. Once logged in, users will be redirected to the homepage where they can view reviews. They can scroll to the bottom of the page to go to the next page. Reviews can be filtered by categories which are listed at the top, and can also be sorted by a list of options. Users can also post a review.
 
-## Available Scripts
+## 💻 Deployed version 💻
 
-In the project directory, you can run:
+The deployed version of the app can be found at https://mk-board-games.netlify.app/
 
-### `npm start`
+## 🛠 Backend Repo 🛠
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The backend API for this app can be found at https://nc-games-uawn.onrender.com/api
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Minimum Node Version
 
-### `npm test`
+To run this project locally, you'll need to have Node.js installed on your machine. This app requires a minimum Node.js version of v18.12.0.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Running the Project Locally 🚀
 
-### `npm run build`
+`To run this project on your local machine, you'll need to do the following:`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Clone this repository to your local machine by using the command git clone https://github.com/muhammeddevops/nc-games-fe in your terminal
+2. cd into the newly created folder.
+3. Use your preferred IDE to open the project, for example: code .
+4. Install the following dependencies: react, react-dom, react-router-dom, react-scripts, and axios. You can install these dependencies by running npm install in the terminal.
+5. To run the app on localhost, enter the command npm run start in the terminal.
+   Thank you for using Reviews React App!
